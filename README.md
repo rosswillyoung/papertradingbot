@@ -1,7 +1,9 @@
 Paper Trading Reddit Bot
 
 - [x] Create Reddit account
-- [ ] Get Reddit API key
+- [x] Get Reddit API key
+- [x] Code to reply to mentions
+- [ ] Filter mentions for buy & sell
 - [ ] Decide on commands to 'buy'/'sell' stocks
 - [ ] Create functions to buy and sell stocks
 - [ ] Function to get leaderboard and current rankings
