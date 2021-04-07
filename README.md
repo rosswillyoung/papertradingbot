@@ -8,4 +8,8 @@ Paper Trading Reddit Bot
 - [ ] Create functions to buy and sell stocks
 - [ ] Function to get leaderboard and current rankings
 - [ ] iex API to get stock prices
-- [ ] Database for ranking list
+- [ ] Database
+    - [ ] Design database
+    - [ ] Create Queries
+    - [ ] Get user & owned stocks/money
+    
