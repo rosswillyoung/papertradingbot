@@ -3,13 +3,20 @@ Paper Trading Reddit Bot
 - [x] Create Reddit account
 - [x] Get Reddit API key
 - [x] Code to reply to mentions
-- [ ] Filter mentions for buy & sell
-- [ ] Decide on commands to 'buy'/'sell' stocks
-- [ ] Create functions to buy and sell stocks
+- [x] Filter mentions for buy & sell
+- [x] Decide on commands to 'buy'/'sell' stocks
+- [x] Create functions to buy and sell stocks
 - [ ] Function to get leaderboard and current rankings
-- [ ] iex API to get stock prices
-- [ ] Database
-    - [ ] Design database
-    - [ ] Create Queries
-    - [ ] Get user & owned stocks/money
+- [x] iex API to get stock prices
+- [x] Database
+    - [x] Design database
+    - [x] Create Queries
+- [ ] function to get all user info
+    - [ ] owned stocks, money, stock value
+- [ ] Clean up reddit comments
+    - [x] Create Reddit class to handle mentions
+- [x] Update with pre/post market functionality
+- [x] Put it in a loop to run continuously
+- [x] Controllers into Classes
+- [x] Convert users table money column into float
     

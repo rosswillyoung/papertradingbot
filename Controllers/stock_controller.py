@@ -51,16 +51,6 @@ def buy_stock(user, stock_symbol, quantity):
 
 
 def sell_stock(user, stock_symbol, quantity):
-    # CHECK IF THEY HAVE THE QUANTITY
-    # sql = "SELECT quantity FROM user_stocks WHERE user_id = %s AND stock_id = %s"
-    # user_id = get_user_id(user)
-    # stock_id = get_stock_id(stock_symbol)
-    # values = (user_id, stock_id)
-    # cursor.execute(sql, values)
-    # result = cursor.fetchall()
-    # owned_quantity = 0
-    # for i in result:
-    #     owned_quantity += i[0] 
     owned_quantity = get_user_stock_quantity(user, stock_symbol)
     print(owned_quantity)
     if owned_quantity < quantity:
@@ -170,19 +160,41 @@ def get_user_stock_quantity(user, stock_symbol):
     result = cursor.fetchall()[0][0]
     return result
 
+def get_all_stocks_from_user(user):
+    user_id = get_user_id(user)
+    sql = "SELECT * FROM user_stocks WHERE user_id = %s"
+    values = (user_id,)
+    cursor.execute(sql, values)
+    result = cursor.fetchall()
+    stocks = {}
+    for i in result:
+        stocks[get_stock_symbol(i[2])] = i[3]
+    # print(stocks)
+    return stocks 
+
+def get_stock_symbol(stock_id):
+    sql = "SELECT stock_symbol FROM stocks WHERE stock_id = %s"
+    values = (stock_id,)
+    cursor.execute(sql, values)
+    result = cursor.fetchall()[0][0]
+    return result
+
+def get_stock_value(stock_symbol, quantity):
+    r = requests.get(stock_url + stock_symbol)
+    price = r.json()[0]['askPrice']
+    result = price * quantity
+    # print(result)
+    return result
+
+def get_total_stock_value(stock_dict):
+    result = 0
+    for i in stock_dict:
+        result += get_stock_value(i, stock_dict[i])
+    # print(result)
+    return result
 
 if __name__ == "__main__":
     cursor = mydb.cursor()
-    # print(check_user_stock('jahum', 'TSLA'))
-    # sell_stock('jahum', 'TSLA', 20)
-    # buy_stock('jahum', 'TSLA', 10)
-    # print(get_user_stock_quantity('jahum', 'TSLA'))
-    get_or_create_user('Rosswilly')
-    # print(get_user_id('jahum'))
-    # print(get_stock_id('FB'))
-    # add_stock('FB')
-    # get_users_money('jahum')
-    # print(get_stock_price('AAPL'))
-    # handle_mention()
+    get_total_stock_value(get_all_stocks_from_user('jahum'))
     cursor.close()
     mydb.close()
