@@ -1,7 +1,6 @@
 import mysql.connector
 import os
 from dotenv import load_dotenv
-import os
 import praw
 import time
 # import sys
@@ -29,7 +28,7 @@ reddit = praw.Reddit(
 if __name__ == "__main__":
     cursor = mydb.cursor()
     stock = Stock(mydb, cursor)
-    reddit_class = Reddit(stock, reddit)
+    reddit_class = Reddit(stock, reddit, cursor)
     while True:
         reddit_class.handle_mention()
         # TODO: CLEAN THIS UP TO CHECK IF THIS NEEDS TO BE DONE

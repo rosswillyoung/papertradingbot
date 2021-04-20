@@ -13,10 +13,11 @@ import requests
 load_dotenv()
 
 class Reddit:
-    def __init__(self, stock, reddit):
+    def __init__(self, stock, reddit, cursor):
         self.reddit = reddit
         self.stock_url = os.environ.get("STOCK_URL")
         self.stock = stock
+        self.cursor = cursor
 
     def handle_mention(self):
         for mention in self.reddit.inbox.mentions():
@@ -72,12 +73,21 @@ class Reddit:
         except IndexError:
             reply = "Error Parsing Comment - Symbol or Quantity Not Found"
             return reply
+    
+    def handle_leaderboard(self, author, comment_list):
+        # GET TOP 10
+
+        # GET AUTHOR'S POSITION IN LEADERBOARD
+
+        # CHECK IF ANOTHER USER MENTIONED (comment_list[2])
+        # IF SO, GET THEIR POSITION IN LEADERBOARD
+        pass
 
     def create_footer(self, author):
         users_money = self.stock.get_users_money(str(author))
         total_stock_value = self.stock.get_total_stock_value(self.stock.get_all_stocks_from_user(str(author)))
         total_value = users_money + total_stock_value
-        footer = ("\n\n\n\n\n\nu/{} has {} moneys left, and their total stock value is currently worth {}, for a total value of {}"
+        footer = ("\n***\n^u/{} has {} moneys left, and their total stock value is currently worth {}, for a total value of {}"
                         .format(author, 
                             users_money,
                             total_stock_value, 
@@ -88,9 +98,7 @@ class Reddit:
 
 #
 #
-#
-#  TODO: HANDLE FORMATTING OF COMMENTS
-#  MAKE IT LOOK PRETTY
+# TODO: LEADERBOARD? UPDATE ONCE A DAY?
 #
 #
 #

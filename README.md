@@ -7,6 +7,8 @@ Paper Trading Reddit Bot
 - [x] Decide on commands to 'buy'/'sell' stocks
 - [x] Create functions to buy and sell stocks
 - [ ] Function to get leaderboard and current rankings
+    - [ ] Might need to be a new table to get current stock value + money
+    - [ ] Updated once a day? 
 - [x] iex API to get stock prices
 - [x] Database
     - [x] Design database
