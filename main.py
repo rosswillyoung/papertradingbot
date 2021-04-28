@@ -3,8 +3,6 @@ import os
 from dotenv import load_dotenv
 import praw
 import time
-# import sys
-# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Controllers.Stock import Stock
 from Controllers.Reddit import Reddit
 load_dotenv()

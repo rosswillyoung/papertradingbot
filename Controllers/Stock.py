@@ -9,7 +9,7 @@ load_dotenv()
 
 class Stock:
     def __init__(self, mydb, cursor):
-        self.cursor = cursor 
+        self.cursor = cursor
         self.mydb = mydb
         self.stock_url = os.environ.get("STOCK_URL")
 
@@ -152,7 +152,7 @@ class Stock:
             return True
         else:
             return False
-            
+
     def get_user_stock_quantity(self, user, stock_symbol):
         user_id = self.get_user_id(user)
         stock_id = self.get_stock_id(stock_symbol)
@@ -172,7 +172,7 @@ class Stock:
         for i in result:
             stocks[self.get_stock_symbol(i[2])] = i[3]
         # print(stocks)
-        return stocks 
+        return stocks
 
     def get_stock_symbol(self, stock_id):
         sql = "SELECT stock_symbol FROM stocks WHERE stock_id = %s"
@@ -196,6 +196,4 @@ class Stock:
         return result
 
 if __name__ == "__main__":
-    stocks = Stock(mydb.cursor())
-    print(stocks.get_total_stock_value(stocks.get_all_stocks_from_user('jahum')))
-    mydb.close()
+    pass

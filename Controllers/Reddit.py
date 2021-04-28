@@ -1,15 +1,6 @@
-# import praw
 from dotenv import load_dotenv
 import os
 import requests
-# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# from main import mydb
-# from stock_controller import (get_stock_price, buy_stock, sell_stock,
-#                              get_users_money, get_or_create_user,
-#                              get_user_stock_quantity, get_total_stock_value,
-#                              get_all_stocks_from_user)
-
-# from Stock import Stock
 load_dotenv()
 
 class Reddit:
@@ -31,6 +22,8 @@ class Reddit:
                         reply = self.handle_buy(author, comment_list)
                     elif command == 'sell':
                         reply = self.handle_sell(author, comment_list)
+                    elif command == 'leaderboard':
+                        reply = self.handle_leaderboard(author, comment_list)
                     else:
                         reply = "Error Parsing Comment - Command Not Recognized (try 'buy' or 'sell')"
                 except IndexError:
@@ -73,9 +66,34 @@ class Reddit:
         except IndexError:
             reply = "Error Parsing Comment - Symbol or Quantity Not Found"
             return reply
-    
+
     def handle_leaderboard(self, author, comment_list):
         # GET TOP 10
+        sql = "SELECT * FROM Leaderboard ORDER BY total_value DESC LIMIT 5"
+        self.cursor.execute(sql)
+        result = self.cursor.fetchall()
+        top_five = {}
+        counter = 1
+        for row in result:
+            top_five[str(counter)] = {'user': row[1], 'money': row[2]}
+            counter += 1
+
+        reply = ("""
+        |User|Money
+        :--:|:--:|:--:
+        {}|{}|{}
+        {}|{}|{}
+        {}|{}|{}
+        {}|{}|{}
+        {}|{}|{}
+        """.format(
+            '1', top_five['1']['user'], top_five['1']['money'],
+            '2', top_five['2']['user'], top_five['2']['money'],
+            '3', top_five['3']['user'], top_five['3']['money'],
+            '4', top_five['4']['user'], top_five['4']['money'],
+            '5', top_five['5']['user'], top_five['5']['money'],
+            ))
+        return reply
 
         # GET AUTHOR'S POSITION IN LEADERBOARD
 
@@ -84,13 +102,14 @@ class Reddit:
         pass
 
     def create_footer(self, author):
+        user = self.stock.get_or_create_user(str(author))
         users_money = self.stock.get_users_money(str(author))
         total_stock_value = self.stock.get_total_stock_value(self.stock.get_all_stocks_from_user(str(author)))
         total_value = users_money + total_stock_value
-        footer = ("\n***\n^u/{} has {} moneys left, and their total stock value is currently worth {}, for a total value of {}"
-                        .format(author, 
+        footer = ("\n***\nu/{} has {} moneys left, and their total stock value is currently worth {}, for a total value of {}"
+                        .format(author,
                             users_money,
-                            total_stock_value, 
+                            total_stock_value,
                             total_value
                         ))
         return footer
@@ -98,7 +117,7 @@ class Reddit:
 
 #
 #
-# TODO: LEADERBOARD? UPDATE ONCE A DAY?
+# TODO: CLEAN UP LEADERBOARD COMMENT
 #
 #
 #
